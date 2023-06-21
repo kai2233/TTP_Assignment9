@@ -34,10 +34,10 @@ function App() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/credits">User credits</Link>
+              <Link to="/debits">User debits</Link>
             </li>
             <li>
-              <Link to="/debits">User debits</Link>
+              <Link to="/credits">User credits</Link>
             </li>
           </ul>
         </nav>
@@ -45,8 +45,8 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/" element={<Home userCredit = {creditState} userDebit = {debitState}/>} />
-          <Route path="/credits/*" element={<Credits/>} />
-          <Route path="/debits/*" element={<Debits/>} />
+          <Route path="/credits/*" element={<Credits userCredit = {creditState} userDebit = {debitState} setCreditState={setCreditState}/>} />
+          <Route path="/debits/*" element={<Debits userCredit = {creditState} userDebit = {debitState} setDebitState={setDebitState}/>} />
         </Routes>
       </div>
     </Router>

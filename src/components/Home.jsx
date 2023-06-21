@@ -4,8 +4,8 @@ const Home = (props) => {
     
   return(
     <div>
-        <h1>I AM HOME</h1>
-        <p>Current Account Balance: ${props.userCredit-props.userDebit}</p>
+        <h2>User Balance Page</h2>
+        <h1>Current Account Balance: ${props.userCredit-props.userDebit}</h1>
     </div> 
 
   );

@@ -1,24 +1,49 @@
 import React, {useState,useEffect} from "react";
-import axios from "axios";
-import { Routes, Route, Link } from "react-router-dom";
+import BankLog from './BankLog';
+import { Link, useNavigate } from "react-router-dom";
 
+//array to store all the add debit transactions
+var BankLogArr=[];
+function Credits(props) {
+    //hook for user input debits
+    const [newDebitState, setNewDebit] = useState(0);
+    //hook for user input description
+    const [descriptionState, setDescriptionState] = useState('');
+    //hook for user input date
+    const [dateState, setDateState] = useState('');
+    const navigate = useNavigate();
 
-function Credits() {
+    //navigate to home page
+    const navigateToBalance = () => {
+    console.log("NAVIGATED");
+    return navigate("/");
+    };
 
-    const [searchState, setSearchState] = useState('');
-    const fetchInfoCredits = () =>{
-        async function fetchInfo(){            
-            const result = await axios.get(`https://bank-of-react-bxbys1cq8-ajlapid718.vercel.app/credits`);
-            setSearchState(result.data.data);
-        }
-        fetchInfo();
+    const changeDebit = () => {
+      props.setDebitState(Number(newDebitState)+props.userDebit);
+      const debitLog={
+        debit:newDebitState,
+        description:descriptionState,
+        date:dateState,
+      };
+    BankLogArr.push(debitLog);
     }
-    console.log(searchState);
-
+     console.log(BankLogArr);
   return (
     <div>
-      <h2>User Credits</h2>
-      <button onClick={fetchInfoCredits}>Fetch Credits</button>
+      <h2>User Debits Page</h2>
+      <button onClick={navigateToBalance}>Go to Account Balance Page</button>
+      <h1>Current Account Balance: ${props.userCredit-props.userDebit}</h1>
+      <h3>Current Debit Amount: ${props.userDebit}</h3>
+      <input type="text" placeholder="Enter new Debit Amount" onChange={e=>{setNewDebit(e.target.value)}}/><br/>
+      <input type="text" placeholder="Description" onChange={e=>{setDescriptionState(e.target.value)}}/><br/>
+      <input type="date" placeholder="Date" onChange={e=>{setDateState(e.target.value)}}/><br/>
+      <button onClick={changeDebit}>Enter</button>
+      {/* loop through BankLogArr and display each debit transaction through passing props to BankLog component */}
+      {BankLogArr.map(debitLog=>{
+                return <BankLog Amount={debitLog.debit} description={debitLog.description} date={debitLog.date}/>
+      })}
+
     </div>
   );
 }
